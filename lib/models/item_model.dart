@@ -7,6 +7,7 @@ class ItemModel {
   final String description;
   final String imagePath;
   bool isAvailable;
+  bool isFeatured;
 
   ItemModel({
     required this.id,
@@ -17,5 +18,6 @@ class ItemModel {
     required this.description,
     required this.imagePath,
     this.isAvailable = true,
+    this.isFeatured = false,
   });
 }

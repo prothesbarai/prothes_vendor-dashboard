@@ -26,4 +26,13 @@ class ItemsProvider with ChangeNotifier {
   }
 
 
+  void toggleFeatured(String id) {
+    final index = _products.indexWhere((p) => p.id == id);
+    if (index != -1) {
+      _products[index].isFeatured = !_products[index].isFeatured;
+      notifyListeners();
+    }
+  }
+
+
 }
