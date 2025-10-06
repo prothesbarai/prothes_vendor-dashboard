@@ -17,7 +17,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
 
   bool isLoading = false;
-
+  bool dropDownBorderColor = false;
   File? tradeLicenseImage;
 
   final nameController = TextEditingController();
@@ -25,7 +25,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final phnNumberController = TextEditingController();
   final deliveryRangeController = TextEditingController();
   final tradeLicenseController = TextEditingController();
-
+  final dropdownController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -39,11 +39,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Icon phoneIcon = Icon(Icons.phone,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon deliveryRangeIcon = Icon(Icons.delivery_dining,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon tradeLicenseIcon = Icon(Icons.insert_drive_file_sharp,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon dropDownIcon = Icon(Icons.store,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   String nameHelperText = "Your Full Name";
   String emailHelperText = "Example : prothes19@gmail.com";
   String phoneHelperText = "Example : 01317818826";
   String deliveryRangeHelperText = "600-meter";
   String tradeLicenseHelperText = "your trade license";
+  String dropdownHelperText = "Select Store Type";
 
 
 
@@ -60,7 +62,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     phnNumberController.dispose();
     deliveryRangeController.dispose();
     tradeLicenseController.dispose();
-
+    dropdownController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -109,6 +111,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Full Name",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Full Name",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.person),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -152,6 +158,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Email",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Email",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.email_outlined),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -193,6 +203,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Phone Number",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Phone Number",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.phone),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -242,6 +256,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Delivery Range",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Delivery Range",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.delivery_dining),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -285,6 +303,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Trade License Number",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Trade License Number",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.document_scanner),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -344,12 +366,79 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               /// <<< Trade License Image Field End Here ==================
 
 
+
+                              /// >>> DropDown Field Start Here ==============
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  DropdownMenu<String>(
+                                    controller: dropdownController,
+                                    hintText: "Items Type",
+                                    label: Text("Items Type"),
+                                    leadingIcon: Icon(Icons.local_convenience_store),
+                                    width: double.infinity,
+                                    enableFilter: true,
+                                    requestFocusOnTap: true,
+                                    enableSearch: true,
+                                    inputDecorationTheme: InputDecorationTheme(
+                                      border: OutlineInputBorder(borderSide: BorderSide(color: dropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor),),
+                                      labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
+                                      hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      fillColor: Colors.white.withValues(alpha: 0.3),
+                                      filled: true,
+                                      prefixIconColor: AppColors.appInputFieldActiveColor,
+                                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: dropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                    ),
+                                    onSelected: (value) {
+                                      if(value != null){
+                                        setState(() {
+                                          dropdownController.text = value;
+                                          dropdownHelperText = "Valid Store Type";
+                                          dropDownIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                          dropDownBorderColor = false;
+                                        });
+                                      }
+                                    },
+                                    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[0-9]')),],
+                                    dropdownMenuEntries: const [
+                                      DropdownMenuEntry(value: "Grocery", label: "Grocery"),
+                                      DropdownMenuEntry(value: "Restaurant", label: "Restaurant"),
+                                      DropdownMenuEntry(value: "Pharmacy", label: "Pharmacy"),
+                                      DropdownMenuEntry(value: "Clothing", label: "Clothing"),
+                                      DropdownMenuEntry(value: "Electronics", label: "Electronics"),
+                                      DropdownMenuEntry(value: "Furniture", label: "Furniture"),
+                                      DropdownMenuEntry(value: "Cosmetics", label: "Cosmetics"),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 12.0.w),
+                                    child: Row(
+                                      children: [
+                                        dropDownIcon,
+                                        SizedBox(width: 5.w),
+                                        Text(dropdownHelperText, style: TextStyle(color: AppColors.appInputFieldUnActiveColor),),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20.h,),
+                              /// <<< DropDown Field End Here ================
+
+
+
                               /// >>> Password Field Start Here ====================
                               TextFormField(
                                 decoration: InputDecoration(
                                   hintText: "Password",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Password",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.password_outlined),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -410,6 +499,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   hintText: "Confirm Password",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   labelText: "Confirm Password",
+                                  fillColor: Colors.white.withValues(alpha: 0.3),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.password_outlined),
+                                  prefixIconColor: AppColors.appInputFieldActiveColor,
                                   labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                   floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -462,8 +555,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       String phnNumber = phnNumberController.text.trim();
                                       String deliveryRange = deliveryRangeController.text.trim();
                                       String password = confirmPasswordController.text.trim();
+
+                                      if(dropdownController.text.isEmpty){
+                                        setState(() {
+                                          dropdownHelperText = "Please select a valid store type";
+                                          dropDownIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                          dropDownBorderColor = true;
+                                        });
+                                        return;
+                                      }
+
                                       try{
-                                        setState(() {isLoading = true;});
+                                        setState(() {isLoading = true; dropDownBorderColor = false;});
 
 
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:prothesvendordashboard/pages/dashboard/pro_dashboard.dart';
+import 'package:prothesvendordashboard/pages/authentication/login_page.dart';
 import 'package:prothesvendordashboard/providers/dashboard_settings_provider.dart';
 import 'package:prothesvendordashboard/providers/items_provider.dart';
 import 'package:prothesvendordashboard/utils/constant/app_colors.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           drawerTheme: DrawerThemeData(backgroundColor: AppColors.primaryColor,shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)))),
           elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),))
         ),
-        home: ProDashboard(),
+        home: LoginPage(),
       ),
     );
   }
