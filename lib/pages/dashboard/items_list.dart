@@ -75,7 +75,7 @@ class ItemsList extends StatelessWidget {
 class FeaturedTrianglePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.orange;
+    final paint = Paint()..color = AppColors.primaryColor;
     final path = Path();
     // Top Left Triangle
     path.moveTo(0, 0);
@@ -84,7 +84,7 @@ class FeaturedTrianglePainter extends CustomPainter {
     path.close();
     canvas.drawPath(path, paint);
     // Featured Text
-    final textSpan = TextSpan(text: "FEATURED", style: TextStyle(color: Colors.white, fontSize: 6.sp, fontWeight: FontWeight.bold,),);
+    final textSpan = TextSpan(text: "FEATURED", style: TextStyle(color: Colors.white, fontSize: 5.sp, fontWeight: FontWeight.bold,),);
     final textPainter = TextPainter(text: textSpan, textDirection: TextDirection.ltr,);
     textPainter.layout();
     double approxHypo = (size.width + size.height) / 1.4;
@@ -94,9 +94,12 @@ class FeaturedTrianglePainter extends CustomPainter {
     canvas.translate(0, size.height);
     canvas.rotate(-45 * 3.1416 / 180);
     // Text Center
-    textPainter.paint(canvas, Offset(offset, -textPainter.height / 0.6));
+    textPainter.paint(canvas, Offset(offset, -textPainter.height / 0.5));
     canvas.restore();
   }
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
