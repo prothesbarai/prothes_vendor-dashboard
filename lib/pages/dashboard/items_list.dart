@@ -13,41 +13,75 @@ class ItemsList extends StatelessWidget {
     final products = Provider.of<ItemsProvider>(context).products;
     return Scaffold(
       appBar: AppBar(title: const Text("My Products")),
-      body: ListView.builder(
+      body: ListView.separated(
         itemCount: products.length,
+        separatorBuilder: (context, index) => SizedBox(height: 8.h),
         itemBuilder: (context, index) {
           final product = products[index];
 
+
           return Card(
-            margin: const EdgeInsets.all(8),
-            child: Stack(
-              children: [
-                ListTile(
-                  leading: product.imagePath.isNotEmpty ? Image.file(File(product.imagePath), width: 50.w, height: 50.h, fit: BoxFit.cover) : const Icon(Icons.image),
-                  title: Text(product.name),
-                  subtitle: Text("${product.category} - \$${product.price}"),
-                  trailing: PopupMenuButton<String>(
-                    onSelected: (value) {
-                      if (value == 'edit') {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => AddItems(editProduct: product)),);
-                      } else if (value == 'make_featured') {
-                        Provider.of<ItemsProvider>(context, listen: false).toggleFeatured(product.id);
-                      }else if (value == 'remove_featured') {
-                        Provider.of<ItemsProvider>(context, listen: false).toggleFeatured(product.id);
-                      } else if (value == 'delete') {
-                        Provider.of<ItemsProvider>(context, listen: false).deleteProduct(product.id);
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      const PopupMenuItem(value: 'edit', child: Text("Edit")),
-                      PopupMenuItem(value: product.isFeatured ? 'remove_featured' : 'make_featured', child: Text(product.isFeatured ? "Remove Featured" : "Make Featured")),
-                      const PopupMenuItem(value: 'delete', child: Text("Delete")),
-                    ],
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r),),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5.r),
+                    child: Container(
+                      color: product.isAvailable ? Colors.green.withValues(alpha: 0.2) : Colors.white,
+                      padding: EdgeInsets.all(10.w),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5.r),
+                            child: product.imagePath.isNotEmpty ? Image.file(File(product.imagePath), width: 50.w, height: 50.h, fit: BoxFit.cover,) :
+                            Container(
+                              width: 50.w,
+                              height: 50.h,
+                              color: Colors.grey.shade300,
+                              child: const Icon(Icons.image, color: Colors.grey),
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(product.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp)),
+                                SizedBox(height: 4.h),
+                                Text("${product.category} - \$${product.price}", style: TextStyle(fontSize: 12.sp, color: Colors.grey[700])),
+                              ],
+                            ),
+                          ),
+
+                          // Popup menu
+                          PopupMenuButton<String>(
+                            onSelected: (value) {
+                              if (value == 'edit') {
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => AddItems(editProduct: product),),);
+                              } else if (value == 'make_featured' || value == 'remove_featured') {
+                                Provider.of<ItemsProvider>(context, listen: false).toggleFeatured(product.id);
+                              } else if (value == 'toggle_stock') {
+                                product.isAvailable = !product.isAvailable;
+                                Provider.of<ItemsProvider>(context, listen: false).updateProduct(product);
+                              } else if (value == 'delete') {
+                                Provider.of<ItemsProvider>(context, listen: false).deleteProduct(product.id);
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(value: 'edit', child: Text("Edit")),
+                              PopupMenuItem(value: product.isFeatured ? 'remove_featured' : 'make_featured',child: Text(product.isFeatured ? "Remove Featured" : "Make Featured"),),
+                              PopupMenuItem(value: 'toggle_stock', child: Text(product.isAvailable ? "Out of Stock" : "In Stock"),),
+                              const PopupMenuItem(value: 'delete', child: Text("Delete")),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
 
-
-                if (product.isFeatured)
+                  if (product.isFeatured)
                     Positioned(
                       top: 0,
                       left: 0,
@@ -59,10 +93,11 @@ class ItemsList extends StatelessWidget {
                         ),
                       ),
                     ),
+                ],
+              ),
+            );
 
-              ],
-            ),
-          );
+
         },
       ),
     );
@@ -100,6 +135,4 @@ class FeaturedTrianglePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
+
