@@ -49,14 +49,14 @@ class ItemsList extends StatelessWidget {
 
                 if (product.isFeatured)
                   Positioned(
-                    top: 8,
-                    left: 8,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.w),
-                      decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(12.r),),
-                      child: Text("Featured", style: TextStyle(color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.bold,)),
+                    top: 0,
+                    left: 0,
+                    child: CustomPaint(
+                      size: Size(40.w, 40.h), // Triangle Size
+                      painter: FeaturedTrianglePainter(),
                     ),
                   ),
+
               ],
             ),
           );
@@ -64,4 +64,36 @@ class ItemsList extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+
+class FeaturedTrianglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = Colors.orange;
+    final path = Path();
+    // Top Left Triangle
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, size.height);
+    path.close();
+    canvas.drawPath(path, paint);
+    // Featured Text
+    final textSpan = TextSpan(text: "FEATURED", style: TextStyle(color: Colors.white, fontSize: 6.sp, fontWeight: FontWeight.bold,),);
+    final textPainter = TextPainter(text: textSpan, textDirection: TextDirection.ltr,);
+    textPainter.layout();
+    double approxHypo = (size.width + size.height) / 1.4;
+    double offset = (approxHypo / 2) - (textPainter.width / 2);
+    // Canvas Transform according to diagonal
+    canvas.save();
+    canvas.translate(0, size.height);
+    canvas.rotate(-45 * 3.1416 / 180);
+    // Text Center
+    textPainter.paint(canvas, Offset(offset, -textPainter.height / 0.6));
+    canvas.restore();
+  }
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
