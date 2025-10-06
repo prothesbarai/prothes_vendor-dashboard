@@ -48,14 +48,17 @@ class ItemsList extends StatelessWidget {
 
 
                 if (product.isFeatured)
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: CustomPaint(
-                      size: Size(40.w, 40.h), // Triangle Size
-                      painter: FeaturedTrianglePainter(),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(5.r),),
+                        child: CustomPaint(
+                          size: Size(35.w, 35.h),
+                          painter: FeaturedTrianglePainter(),
+                        ),
+                      ),
                     ),
-                  ),
 
               ],
             ),
