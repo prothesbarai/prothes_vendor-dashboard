@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../providers/items_provider.dart';
+import '../../utils/constant/app_colors.dart';
 import 'add_items.dart';
 
 class ItemsList extends StatelessWidget {
@@ -12,6 +13,8 @@ class ItemsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final products = Provider.of<ItemsProvider>(context).products;
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(title: const Text("My Products")),
       body: ListView.separated(
         itemCount: products.length,

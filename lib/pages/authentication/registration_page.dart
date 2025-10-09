@@ -603,6 +603,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                   if (isLoading)
                     Positioned(
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      right: 0,
                       child: Center(
                         child: Container(
                           padding: EdgeInsets.all(20.w),

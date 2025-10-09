@@ -129,6 +129,10 @@ class _AddItemsState extends State<AddItems> {
                                 hintText: "Product Name",
                                 hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 labelText: "Product Name",
+                                filled: true,
+                                fillColor: Colors.white.withValues(alpha: 0.3),
+                                prefixIcon: Icon(Icons.inventory),
+                                prefixIconColor: AppColors.appInputFieldActiveColor,
                                 labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                 floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -167,6 +171,10 @@ class _AddItemsState extends State<AddItems> {
                                 hintText: "Product Price",
                                 hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 labelText: "Product Price",
+                                filled: true,
+                                fillColor: Colors.white.withValues(alpha: 0.3),
+                                prefixIcon: Icon(Icons.price_change),
+                                prefixIconColor: AppColors.appInputFieldActiveColor,
                                 labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                 floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -223,6 +231,10 @@ class _AddItemsState extends State<AddItems> {
                                 hintText: "Product Stock",
                                 hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 labelText: "Product Stock",
+                                filled: true,
+                                fillColor: Colors.white.withValues(alpha: 0.3),
+                                prefixIcon: Icon(Icons.warehouse),
+                                prefixIconColor: AppColors.appInputFieldActiveColor,
                                 labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                 floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -264,6 +276,10 @@ class _AddItemsState extends State<AddItems> {
                                 hintText: "Product Category",
                                 hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 labelText: "Product Category",
+                                filled: true,
+                                fillColor: Colors.white.withValues(alpha: 0.3),
+                                prefixIcon: Icon(Icons.category_outlined),
+                                prefixIconColor: AppColors.appInputFieldActiveColor,
                                 labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                 floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -304,6 +320,10 @@ class _AddItemsState extends State<AddItems> {
                                 hintText: "Product Description",
                                 hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 labelText: "Product Description",
+                                filled: true,
+                                fillColor: Colors.white.withValues(alpha: 0.3),
+                                prefixIcon: Icon(Icons.description),
+                                prefixIconColor: AppColors.appInputFieldActiveColor,
                                 labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
                                 floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                 border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
@@ -365,10 +385,10 @@ class _AddItemsState extends State<AddItems> {
                                 FocusScope.of(context).unfocus();
                                 if(_formKey.currentState!.validate()){
 
-                                  if (_image == null) {
+                                  /*if (_image == null) {
                                     setState(() {_imageError = true;});
                                     return;
-                                  }
+                                  }*/
 
                                   final product = ItemModel(
                                     id: isEdit ? widget.editProduct!.id : const Uuid().v4(),
