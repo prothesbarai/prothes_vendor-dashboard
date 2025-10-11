@@ -14,6 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   AppTheme currentTheme = AppTheme.light;
   bool isShopOpen = true;
+  bool isEnabledOrderNotification = true;
   String selectedLanguage = 'English';
 
   late bool isDarkMode;
@@ -79,11 +80,13 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
           // Order Notifications
-          ListTile(
-            leading: const Icon(Icons.notifications),
+          // Order Notifications
+          SwitchListTile(
             title: const Text("Order Notifications"),
-            subtitle: const Text("Enable/Disable order alerts"),
-            onTap: () {},
+            subtitle: Text(isEnabledOrderNotification ? "Enable" : "Disable"),
+            value: isEnabledOrderNotification,
+            onChanged: (value) {setState(() {isEnabledOrderNotification = value;});},
+            secondary: const Icon(Icons.notifications),
           ),
           const Divider(),
 
