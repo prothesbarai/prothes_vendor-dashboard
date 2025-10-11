@@ -3,6 +3,8 @@ class ItemModel {
   final String name;
   final String category;
   final double price;
+  final double discountPrice;
+  final String discountPriceType;
   final int stock;
   final String description;
   final String imagePath;
@@ -14,6 +16,8 @@ class ItemModel {
     required this.name,
     required this.category,
     required this.price,
+    required this.discountPrice,
+    required this.discountPriceType,
     required this.stock,
     required this.description,
     required this.imagePath,

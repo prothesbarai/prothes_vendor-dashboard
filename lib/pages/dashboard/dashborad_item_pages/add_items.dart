@@ -25,11 +25,14 @@ class _AddItemsState extends State<AddItems> {
   File? _image;
   bool isLoading = false;
   bool _imageError = false;
+  bool dropDownBorderColor = false;
   final _formKey = GlobalKey<FormState>();
 
 
   final _productNameController = TextEditingController();
   final _productPriceController = TextEditingController();
+  final _productDiscountPriceController = TextEditingController();
+  final _discountPriceDropdownController = TextEditingController();
   final _productCategoryController = TextEditingController();
   final _productStockController = TextEditingController();
   final _productDescriptionController = TextEditingController();
@@ -41,6 +44,12 @@ class _AddItemsState extends State<AddItems> {
 
   Icon productPriceIcon = Icon(Icons.price_change,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   String productPriceHelperText = "Product Price";
+
+  Icon productDiscountPriceIcon = Icon(Icons.price_change,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  String productDiscountPriceHelperText = "Discount Price";
+
+  Icon discountPriceDropdownTypeIcon = Icon(Icons.price_change,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  String discountPriceDropdownTypeHelperText = "Discount Type";
 
   Icon productCategoryIcon = Icon(Icons.category_outlined,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   String productCategoryHelperText = "Product Category";
@@ -59,6 +68,8 @@ class _AddItemsState extends State<AddItems> {
     if (widget.editProduct != null) {
       _productNameController.text = widget.editProduct!.name;
       _productPriceController.text = widget.editProduct!.price.toString();
+      _productDiscountPriceController.text = widget.editProduct!.discountPrice.toString();
+      _discountPriceDropdownController.text = widget.editProduct!.discountPriceType;
       _productCategoryController.text = widget.editProduct!.category;
       _productStockController.text = widget.editProduct!.stock.toString();
       _productDescriptionController.text = widget.editProduct!.description;
@@ -72,6 +83,12 @@ class _AddItemsState extends State<AddItems> {
 
       productPriceHelperText = "Valid";
       productPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+
+      productDiscountPriceHelperText = "Valid";
+      productDiscountPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+
+      discountPriceDropdownTypeHelperText = "Valid";
+      discountPriceDropdownTypeIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
 
       productCategoryHelperText = "Valid";
       productCategoryIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
@@ -90,6 +107,8 @@ class _AddItemsState extends State<AddItems> {
   void dispose() {
     _productNameController.dispose();
     _productPriceController.dispose();
+    _productDiscountPriceController.dispose();
+    _discountPriceDropdownController.dispose();
     _productCategoryController.dispose();
     _productStockController.dispose();
     _productDescriptionController.dispose();
@@ -227,6 +246,158 @@ class _AddItemsState extends State<AddItems> {
                             ),
                             SizedBox( height: 20.h),
                             /// <<< =========== Product Price End Here ====================
+
+
+                            /// >>> ==== Product Discount Price Start Here =====
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      hintText: "Discount Price",
+                                      labelText: "Discount Price",
+                                      hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      prefixIcon: Icon(Icons.price_change),
+                                      prefixIconColor: AppColors.appInputFieldActiveColor,
+                                      fillColor: Colors.white.withValues(alpha: 0.3),
+                                      filled: true,
+                                      labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
+                                      floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
+                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
+                                      helper: Row(children: [productDiscountPriceIcon, SizedBox(width: 5.w,), Text(productDiscountPriceHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 10,
+                                    cursorColor: AppColors.appInputFieldActiveColor,
+                                    controller: _productDiscountPriceController,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    onChanged: (value){
+                                      if (value.startsWith(".")) {
+                                        _productDiscountPriceController.text = "0$value";
+                                        _productDiscountPriceController.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: _productDiscountPriceController.text.length),
+                                        );
+                                      }
+                                      if (value.split(".").length > 2) {
+                                        _productDiscountPriceController.text = value.substring(0, value.length - 1);
+                                        _productDiscountPriceController.selection = TextSelection.fromPosition(
+                                          TextPosition(offset: _productDiscountPriceController.text.length),
+                                        );
+                                      }
+                                      double productPrice = double.tryParse(_productPriceController.text) ?? 0;
+                                      double discountValue = double.tryParse(value) ?? 0;
+                                      String type = _discountPriceDropdownController.text;
+                                      setState(() {
+                                        if (value.trim().isEmpty) {
+                                          productDiscountPriceHelperText = "";
+                                        } else if (type == "%" && discountValue > 100) {
+                                          productDiscountPriceHelperText = "max 100%";
+                                          productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                        } else if (type == "tk" && discountValue > productPrice) {
+                                          productDiscountPriceHelperText = "Discount > Price";
+                                          productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                        } else {
+                                          productDiscountPriceHelperText = "Valid";
+                                          productDiscountPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                        }
+                                      });
+                                    },
+                                    validator: (value){
+                                      if(value == null || value.trim().isEmpty){
+                                        return "Field is Empty";
+                                      }
+                                      if (value.startsWith(".")) {
+                                        return "Invalid Format";
+                                      }
+                                      if (value.split(".").length > 2) {
+                                        return "Only one decimal point allowed";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: 10.w,),
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      DropdownMenu<String>(
+                                        controller: _discountPriceDropdownController,
+                                        hintText: "DT",
+                                        label: Text("DT"),
+                                        leadingIcon: Icon(Icons.discount_outlined),
+                                        width: double.infinity,
+                                        enableFilter: true,
+                                        requestFocusOnTap: true,
+                                        enableSearch: true,
+                                        inputDecorationTheme: InputDecorationTheme(
+                                          contentPadding: EdgeInsets.symmetric(vertical: 23.h),
+                                          border: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor),),
+                                          labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
+                                          hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                          fillColor: Colors.white.withValues(alpha: 0.3),
+                                          filled: true,
+                                          prefixIconColor: AppColors.appInputFieldActiveColor,
+                                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                        ),
+                                        onSelected: (value) {
+                                          if(value != null){
+                                            setState(() {
+                                              _discountPriceDropdownController.text = value;
+                                              discountPriceDropdownTypeHelperText = "Valid";
+                                              discountPriceDropdownTypeIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                              dropDownBorderColor = false;
+                                            });
+
+                                            double productPrice = double.tryParse(_productPriceController.text) ?? 0;
+                                            double discountValue = double.tryParse(_productDiscountPriceController.text) ?? 0;
+
+                                            if (value == "%" && discountValue > 100) {
+                                              setState(() {
+                                                productDiscountPriceHelperText = "max 100%";
+                                                productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                              });
+                                            } else if (value == "tk" && discountValue > productPrice) {
+                                              setState(() {
+                                                productDiscountPriceHelperText = "Discount > Price";
+                                                productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                              });
+                                            } else {
+                                              setState(() {
+                                                productDiscountPriceHelperText = "Valid";
+                                                productDiscountPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                              });
+                                            }
+                                          }
+                                        },
+                                        inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[0-9]')),],
+                                        dropdownMenuEntries: const [
+                                          DropdownMenuEntry(value: "tk", label: "TK"),
+                                          DropdownMenuEntry(value: "%", label: "%"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 12.0.w),
+                                        child: Row(
+                                          children: [
+                                            discountPriceDropdownTypeIcon,
+                                            SizedBox(width: 5.w),
+                                            Text(discountPriceDropdownTypeHelperText, style: TextStyle(color: AppColors.appInputFieldUnActiveColor),),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox( height: 20.h),
+                            /// <<< === Product Discount Price End Here ========
 
 
                             /// >>> =========== Product Stock Start Here ==================
@@ -394,11 +565,34 @@ class _AddItemsState extends State<AddItems> {
                                     return;
                                   }
 
+                                  if(_discountPriceDropdownController.text.isEmpty){
+                                    setState(() {
+                                      discountPriceDropdownTypeHelperText = "Type";
+                                      discountPriceDropdownTypeIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                      dropDownBorderColor = true;
+                                    });
+                                    return;
+                                  }
+
+                                  if (_discountPriceDropdownController.text == "%" && (double.tryParse(_productDiscountPriceController.text) ?? 0) > 100) {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Discount percentage cannot be greater than 100")),);
+                                    return;
+                                  }
+
+                                  if (_discountPriceDropdownController.text == "tk" && (double.tryParse(_productDiscountPriceController.text) ?? 0) > (double.tryParse(_productPriceController.text) ?? 0)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Discount price cannot be greater than product price")),);
+                                    return;
+                                  }
+
+
+
                                   final product = ItemModel(
                                     id: isEdit ? widget.editProduct!.id : const Uuid().v4(),
                                     name: _productNameController.text,
                                     category: _productCategoryController.text,
                                     price: double.tryParse(_productPriceController.text) ?? 0,
+                                    discountPrice: double.tryParse(_productDiscountPriceController.text.trim()) ?? 0,
+                                    discountPriceType: _discountPriceDropdownController.text,
                                     stock: int.tryParse(_productStockController.text) ?? 0,
                                     description: _productDescriptionController.text,
                                     imagePath: _image?.path ?? "",
