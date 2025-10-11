@@ -102,6 +102,8 @@ class _AddItemsState extends State<AddItems> {
     final isEdit = widget.editProduct != null;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(title: Text(isEdit ? "Edit Product" : "Add Product")),
       body: Container(
         decoration: BoxDecoration(color: AppColors.bodyBgOverlayColor),
@@ -113,6 +115,8 @@ class _AddItemsState extends State<AddItems> {
             behavior: HitTestBehavior.opaque,
             child: Stack(
               children: [
+
+
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 10.0.h,left: 10.0.w,right: 10.0.w,bottom: 10.0.h),
@@ -121,7 +125,7 @@ class _AddItemsState extends State<AddItems> {
                         child: Column(
                           children: [
 
-                            SizedBox(height: 30.h,),
+                            SizedBox(height: kToolbarHeight + 70.h),
 
                             /// >>> =========== Product Name Start Here ==================
                             TextFormField(
@@ -385,10 +389,10 @@ class _AddItemsState extends State<AddItems> {
                                 FocusScope.of(context).unfocus();
                                 if(_formKey.currentState!.validate()){
 
-                                  /*if (_image == null) {
+                                  if (_image == null) {
                                     setState(() {_imageError = true;});
                                     return;
-                                  }*/
+                                  }
 
                                   final product = ItemModel(
                                     id: isEdit ? widget.editProduct!.id : const Uuid().v4(),
@@ -420,7 +424,29 @@ class _AddItemsState extends State<AddItems> {
                         )
                     ),
                   ),
-                )
+                ),
+
+                if (isLoading)
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(12.r),),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(color: Colors.white),
+                            SizedBox(height: 15.h),
+                            Text("Loading...", style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold,),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

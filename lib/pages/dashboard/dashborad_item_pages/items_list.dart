@@ -16,92 +16,98 @@ class ItemsList extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: const Text("My Products")),
-      body: ListView.separated(
-        itemCount: products.length,
-        separatorBuilder: (context, index) => SizedBox(height: 8.h),
-        itemBuilder: (context, index) {
-          final product = products[index];
+      body: Padding(
+        padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+        child: products.isEmpty ? Center(child: Text("No Product"),):
+        ListView.separated(
+          itemCount: products.length,
+          separatorBuilder: (context, index) => SizedBox(height: 8.h),
+          itemBuilder: (context, index) {
+            final product = products[index];
 
 
-          return Card(
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r),),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(5.r),
-                    child: Container(
-                      color: product.isAvailable ? Colors.green.withValues(alpha: 0.2) : Colors.white,
-                      padding: EdgeInsets.all(10.w),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5.r),
-                            child: product.imagePath.isNotEmpty ? Image.file(File(product.imagePath), width: 50.w, height: 50.h, fit: BoxFit.cover,) :
-                            Container(
-                              width: 50.w,
-                              height: 50.h,
-                              color: Colors.grey.shade300,
-                              child: const Icon(Icons.image, color: Colors.grey),
+            return Card(
+                margin: EdgeInsets.symmetric(horizontal: 10.w),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r),),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5.r),
+                      child: Container(
+                        color: product.isAvailable ? Colors.green.withValues(alpha: 0.2) : Colors.white,
+                        padding: EdgeInsets.all(10.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5.r),
+                              child: product.imagePath.isNotEmpty ? Image.file(File(product.imagePath), width: 50.w, height: 50.h, fit: BoxFit.cover,) :
+                              Container(
+                                width: 50.w,
+                                height: 50.h,
+                                color: Colors.grey.shade300,
+                                child: const Icon(Icons.image, color: Colors.grey),
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(product.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp)),
-                                SizedBox(height: 4.h),
-                                Text("${product.category} - \$${product.price}", style: TextStyle(fontSize: 12.sp, color: Colors.grey[700])),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(product.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp)),
+                                  SizedBox(height: 4.h),
+                                  Text("${product.category} - \$${product.price}", style: TextStyle(fontSize: 12.sp, color: Colors.grey[700])),
+                                ],
+                              ),
+                            ),
+
+
+                            // Popup menu
+                            PopupMenuButton<String>(
+                              onSelected: (value) {
+                                if (value == 'edit') {
+                                  Navigator.push(context, MaterialPageRoute(builder: (_) => AddItems(editProduct: product),),);
+                                } else if (value == 'make_featured' || value == 'remove_featured') {
+                                  Provider.of<ItemsProvider>(context, listen: false).toggleFeatured(product.id);
+                                } else if (value == 'toggle_stock') {
+                                  product.isAvailable = !product.isAvailable;
+                                  Provider.of<ItemsProvider>(context, listen: false).updateProduct(product);
+                                } else if (value == 'delete') {
+                                  Provider.of<ItemsProvider>(context, listen: false).deleteProduct(product.id);
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(value: 'edit', child: Row(children: [Text('✍️'), SizedBox(width: 8), Text('Edit'),],),),
+                                const PopupMenuItem(value: 'publish', child: Row(children: [Text('📤'), SizedBox(width: 8), Text('Publish'),],),),
+                                PopupMenuItem(value: 'toggle_stock', child: Row(children: [Text(product.isAvailable ? "🔴" : "🟢"), const SizedBox(width: 8), Text(product.isAvailable ? "Out of Stock" : "In Stock"),],),),
+                                PopupMenuItem(value: product.isFeatured ? 'remove_featured' : 'make_featured',child: Row(children: [const Text('🎯'), const SizedBox(width: 8), Text(product.isFeatured ? "Remove Featured" : "Make Featured"),],),),
+                                const PopupMenuItem(value: 'delete', child: Row(children: [Text('🗑️'), SizedBox(width: 8), Text('️Delete'),],),),
                               ],
                             ),
-                          ),
-
-                          // Popup menu
-                          PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == 'edit') {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => AddItems(editProduct: product),),);
-                              } else if (value == 'make_featured' || value == 'remove_featured') {
-                                Provider.of<ItemsProvider>(context, listen: false).toggleFeatured(product.id);
-                              } else if (value == 'toggle_stock') {
-                                product.isAvailable = !product.isAvailable;
-                                Provider.of<ItemsProvider>(context, listen: false).updateProduct(product);
-                              } else if (value == 'delete') {
-                                Provider.of<ItemsProvider>(context, listen: false).deleteProduct(product.id);
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              const PopupMenuItem(value: 'edit', child: Text("Edit")),
-                              PopupMenuItem(value: product.isFeatured ? 'remove_featured' : 'make_featured',child: Text(product.isFeatured ? "Remove Featured" : "Make Featured"),),
-                              PopupMenuItem(value: 'toggle_stock', child: Text(product.isAvailable ? "Out of Stock" : "In Stock"),),
-                              const PopupMenuItem(value: 'delete', child: Text("Delete")),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  if (product.isFeatured)
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(5.r),),
-                        child: CustomPaint(
-                          size: Size(35.w, 35.h),
-                          painter: FeaturedTrianglePainter(),
+                          ],
                         ),
                       ),
                     ),
-                ],
-              ),
-            );
+
+                    if (product.isFeatured)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5.r),),
+                          child: CustomPaint(
+                            size: Size(35.w, 35.h),
+                            painter: FeaturedTrianglePainter(),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
 
 
-        },
+          },
+        ),
       ),
     );
   }
