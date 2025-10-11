@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     }
                                   },
-                                  child: Text("Verify OTP")
+                                  child: Text("Verify Email")
                               )
                             ],
                             /// <<< If User First Time Login ===================
