@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           drawerTheme: DrawerThemeData(backgroundColor: AppColors.primaryColor,shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)))),
           elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),))
         ),
-        home: LoginPage(),
+        home: ForgetPasswordPage(),
       ),
     );
   }
