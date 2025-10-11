@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../providers/items_provider.dart';
-import '../../utils/constant/app_colors.dart';
+import '../../../providers/items_provider.dart';
+import '../../../utils/constant/app_colors.dart';
 import 'add_items.dart';
 
 class ItemsList extends StatelessWidget {

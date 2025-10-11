@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import '../../models/item_model.dart';
-import '../../providers/items_provider.dart';
-import '../../utils/constant/app_colors.dart';
-import '../../utils/image_processor.dart';
+import '../../../models/item_model.dart';
+import '../../../providers/items_provider.dart';
+import '../../../utils/constant/app_colors.dart';
+import '../../../utils/image_processor.dart';
 
 class AddItems extends StatefulWidget {
 
