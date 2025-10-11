@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prothesvendordashboard/pages/authentication/login_page.dart';
-
 import '../../utils/constant/app_colors.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -15,13 +14,26 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
 
   bool isLoading = false;
+  bool isOtpSent = false;
+  bool isPasswordStage = false;
   final emailController = TextEditingController();
+  final otpController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
 
   /// >>> Helper Text & Icon Here
   Icon emailIcon = Icon(Icons.email,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon otpIcon = Icon(Icons.pin,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon passIcon = Icon(Icons.password,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon conPassIcon = Icon(Icons.password,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   String emailHelperText = "Example : prothes19@gmail.com";
+  String otpHelperText = "Example : 123456";
+  String passHelperText = "At least 8 chars, Example : Prothes@123";
+  String conPassHelperText = "Re-type Password";
 
   @override
   void dispose() {
@@ -47,6 +59,20 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     );
   }
 
+
+
+  /// >>> Show Email & Phone Error Dialogue ==============================
+  void _showDialogue(String message){
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("Wrong Email"),
+        content: Text(message.isNotEmpty ? message : "Unknown validation error occurred."),
+        actions: [ElevatedButton(onPressed: () => Navigator.pop(context), style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r))),child: Text("OK",style: TextStyle(color: Colors.white),),),],
+      ),
+    );
+  }
+  /// <<< Show Email & Phone Error Dialogue ==============================
 
   @override
   Widget build(BuildContext context) {

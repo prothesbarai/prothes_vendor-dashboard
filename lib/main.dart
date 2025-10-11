@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prothesvendordashboard/pages/authentication/forget_password_page.dart';
 import 'package:prothesvendordashboard/pages/authentication/login_page.dart';
 import 'package:prothesvendordashboard/pages/authentication/registration_page.dart';
 import 'package:prothesvendordashboard/pages/dashboard/pro_dashboard.dart';

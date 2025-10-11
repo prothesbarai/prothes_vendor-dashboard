@@ -123,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 decoration: InputDecoration(
                                   hintText: "Your OTP",
+                                  labelText: "Your OTP",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   fillColor: Colors.white.withValues(alpha: 0.3),
                                   filled: true,
@@ -212,6 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 decoration: InputDecoration(
                                   hintText: "Email",
+                                  labelText: "Email",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   fillColor: Colors.white.withValues(alpha: 0.3),
                                   filled: true,
@@ -256,6 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 decoration: InputDecoration(
                                   hintText: "Password",
+                                  labelText: "Password",
                                   hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
                                   fillColor: Colors.white.withValues(alpha: 0.3),
                                   filled: true,
