@@ -534,6 +534,18 @@ class _AddItemsState extends State<AddItems> {
 
 
                             /// >>> Product Image Upload Field Start Here ===================
+
+
+
+                            if (_image != null)
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 10.h),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    child: Image.file(_image!, width: double.infinity, height: 200.h, fit: BoxFit.cover,),
+                                  ),
+                                ),
+                            
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton.icon(
@@ -548,6 +560,8 @@ class _AddItemsState extends State<AddItems> {
                                 style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, elevation: 0, side: BorderSide(color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor, width: 1.5,), padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r),),),
                               ),
                             ),
+
+                            
                             SizedBox(height: 30.h,),
                             /// <<< Product Image Upload Field End Here =====================
 
