@@ -81,7 +81,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                   // Switch Button Shop Open / Close
                   _buildItem(context, customSettings.isPlayOrPause ? "Play" : "Pause", customSettings.isPlayOrPause?Icons.play_circle_outline_outlined:Icons.pause_circle_outline, showSwitch: true, switchValue: customSettings.isPlayOrPause,onSwitchChanged :(val) => customSettings.togglePlayPauseStatus(),),
-                  _buildItem(context, "Global Settings", Icons.settings_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => ProDashboard(),));}),
+                  _buildItem(context, "Settings", Icons.settings_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => ProDashboard(),));}),
                   _buildItem(context, "Help & Support", Icons.help_outline, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => ProDashboard(),));}),
                 ],
               ),
