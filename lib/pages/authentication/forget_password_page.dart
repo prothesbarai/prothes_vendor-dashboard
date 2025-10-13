@@ -198,6 +198,10 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
                               /// >>> Pass & Confirm Pass Field Start Here =====
                               if (isPasswordStage)...[
+                                /// >>> Form Title Start Here ====================
+                                Text("Set New Password",style:TextStyle(color: AppColors.primaryColor,fontSize: 30.sp,fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+                                SizedBox(height: 30.h,),
+                                /// <<< Form Title End Here ======================
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "Password",
