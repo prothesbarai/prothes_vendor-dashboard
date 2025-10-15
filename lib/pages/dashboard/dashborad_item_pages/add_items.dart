@@ -554,6 +554,8 @@ class _AddItemsState extends State<AddItems> {
                                 },
                                 icon: Icon(Icons.upload_file, size: 24.sp, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,),
                                 label: Text(_image != null ? "Change Image" : "Upload Product Image", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,), overflow: TextOverflow.ellipsis,),
+                                /// >>> If You Want to show image path Replaced  "Change Image"  text
+                                //label: Text(_image != null ? path.basename(_image!.path) : "Upload Product Image", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,), overflow: TextOverflow.ellipsis,),
                                 style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, elevation: 0, side: BorderSide(color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor, width: 1.5,), padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r),),),
                               ),
                             ),
