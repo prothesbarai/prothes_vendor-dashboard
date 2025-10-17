@@ -19,6 +19,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => ItemsProvider()),
         ChangeNotifierProvider(create: (context) => DashboardSettingsProvider()),
+        // This Provider Only Theme Change Provider
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
       child: MyApp(),
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
   }
 
 
+  /// >>>>>>>> NB :  Theme Customization For, Need Theme Model + Theme Provider & Settings
+  /// >>> Customization For Light Theme
   ThemeData _buildLightTheme() {
     return ThemeData(
       useMaterial3: false,
@@ -63,7 +66,7 @@ class MyApp extends StatelessWidget {
       dialogTheme: DialogThemeData(backgroundColor: Colors.white),
     );
   }
-
+  /// >>> Customization For Dark Theme
   ThemeData _buildDarkTheme() {
     return ThemeData(
       useMaterial3: false,
