@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/items_provider.dart';
+import '../../../providers/theme_provider.dart';
 import '../../../utils/constant/app_colors.dart';
 import 'add_items.dart';
 
@@ -12,9 +13,11 @@ class ItemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ItemsProvider>(context).products;
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[900] : AppColors.primaryColor,
       appBar: AppBar(title: const Text("My Products")),
       body: Padding(
         padding: EdgeInsets.only(top: 10.h, bottom: 10.h),

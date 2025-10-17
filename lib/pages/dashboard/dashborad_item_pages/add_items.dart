@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../../models/item_model.dart';
 import '../../../providers/items_provider.dart';
+import '../../../providers/theme_provider.dart';
 import '../../../utils/constant/app_colors.dart';
 import '../../../utils/image_processor.dart';
 
@@ -119,13 +119,14 @@ class _AddItemsState extends State<AddItems> {
   Widget build(BuildContext context) {
 
     final isEdit = widget.editProduct != null;
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(title: Text(isEdit ? "Edit Product" : "Add Product")),
       body: Container(
-        decoration: BoxDecoration(color: AppColors.bodyBgOverlayColor),
+        decoration: BoxDecoration(color: themeProvider.themeMode == ThemeMode.dark ? Colors.black : AppColors.bodyBgOverlayColor),
         height: double.infinity,
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -154,24 +155,24 @@ class _AddItemsState extends State<AddItems> {
                                 labelText: "Product Name",
                                 filled: true,
                                 fillColor: Colors.white.withValues(alpha: 0.3),
-                                prefixIcon: Icon(Icons.inventory),
-                                prefixIconColor: AppColors.appInputFieldActiveColor,
-                                labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                helper: Row(children: [productNameIcon, SizedBox(width: 5.w,), Text(productNameHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                prefixIcon: Icon(Icons.inventory,),
+                                prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldActiveColor,
+                                labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldUnActiveColor),
+                                floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldActiveColor),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldUnActiveColor)),
+                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldActiveColor)),
+                                helper: Row(children: [productNameIcon, SizedBox(width: 5.w,), Text(productNameHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldUnActiveColor),)],),
                               ),
                               keyboardType: TextInputType.text,
                               maxLength: 30,
-                              cursorColor: AppColors.appInputFieldActiveColor,
+                              cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.appInputFieldActiveColor,
                               controller: _productNameController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               onChanged: (value){
                                 setState(() {
                                   if (value.trim().isNotEmpty){
                                     productNameHelperText = "Valid";
-                                    productNameIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                    productNameIcon = Icon(Icons.verified,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.green, size: 15.sp,);
                                   }else{
                                     productNameHelperText = "";
                                   }
@@ -192,21 +193,21 @@ class _AddItemsState extends State<AddItems> {
                             TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Product Price",
-                                hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                hintStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
                                 labelText: "Product Price",
                                 filled: true,
                                 fillColor: Colors.white.withValues(alpha: 0.3),
                                 prefixIcon: Icon(Icons.price_change),
-                                prefixIconColor: AppColors.appInputFieldActiveColor,
-                                labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                helper: Row(children: [productPriceIcon, SizedBox(width: 5.w,), Text(productPriceHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
+                                labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor)),
+                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor)),
+                                helper: Row(children: [productPriceIcon, SizedBox(width: 5.w,), Text(productPriceHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),)],),
                               ),
                               keyboardType: TextInputType.number,
                               maxLength: 10,
-                              cursorColor: AppColors.appInputFieldActiveColor,
+                              cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                               controller: _productPriceController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               onChanged: (value){
@@ -225,7 +226,7 @@ class _AddItemsState extends State<AddItems> {
                                 setState(() {
                                   if (value.trim().isNotEmpty){
                                     productPriceHelperText = "Valid";
-                                    productPriceIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                    productPriceIcon = Icon(Icons.verified,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.green, size: 15.sp,);
                                   }else{
                                     productPriceHelperText = "";
                                   }
@@ -257,20 +258,20 @@ class _AddItemsState extends State<AddItems> {
                                     decoration: InputDecoration(
                                       hintText: "Discount Price",
                                       labelText: "Discount Price",
-                                      hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      hintStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
                                       prefixIcon: Icon(Icons.price_change),
-                                      prefixIconColor: AppColors.appInputFieldActiveColor,
+                                      prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                                       fillColor: Colors.white.withValues(alpha: 0.3),
                                       filled: true,
-                                      labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                      floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                      border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                      helper: Row(children: [productDiscountPriceIcon, SizedBox(width: 5.w,), Text(productDiscountPriceHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                      labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                      floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
+                                      border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor)),
+                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor)),
+                                      helper: Row(children: [productDiscountPriceIcon, SizedBox(width: 5.w,), Text(productDiscountPriceHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),)],),
                                     ),
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
-                                    cursorColor: AppColors.appInputFieldActiveColor,
+                                    cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                                     controller: _productDiscountPriceController,
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
                                     onChanged: (value){
@@ -294,13 +295,13 @@ class _AddItemsState extends State<AddItems> {
                                           productDiscountPriceHelperText = "";
                                         } else if (type == "%" && discountValue > 100) {
                                           productDiscountPriceHelperText = "max 100%";
-                                          productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                          productDiscountPriceIcon = Icon(Icons.error, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.red, size: 15.sp);
                                         } else if (type == "tk" && discountValue > productPrice) {
                                           productDiscountPriceHelperText = "Discount > Price";
-                                          productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                          productDiscountPriceIcon = Icon(Icons.error, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red, size: 15.sp);
                                         } else {
                                           productDiscountPriceHelperText = "Valid";
-                                          productDiscountPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                          productDiscountPriceIcon = Icon(Icons.verified, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp);
                                         }
                                       });
                                     },
@@ -328,28 +329,28 @@ class _AddItemsState extends State<AddItems> {
                                         controller: _discountPriceDropdownController,
                                         hintText: "DT",
                                         label: Text("DT"),
-                                        leadingIcon: Icon(Icons.discount_outlined),
+                                        leadingIcon: Icon(Icons.discount_outlined,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : AppColors.primaryColor,),
                                         width: double.infinity,
                                         enableFilter: true,
                                         requestFocusOnTap: true,
                                         enableSearch: true,
                                         inputDecorationTheme: InputDecorationTheme(
                                           contentPadding: EdgeInsets.symmetric(vertical: 23.h),
-                                          border: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                          border: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),),
                                           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor),),
-                                          labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                          hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                          labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                          hintStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
                                           fillColor: Colors.white.withValues(alpha: 0.3),
                                           filled: true,
                                           prefixIconColor: AppColors.appInputFieldActiveColor,
-                                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? Colors.red : AppColors.appInputFieldUnActiveColor),),
+                                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: _discountPriceDropdownController.text.isEmpty && dropDownBorderColor ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),),
                                         ),
                                         onSelected: (value) {
                                           if(value != null){
                                             setState(() {
                                               _discountPriceDropdownController.text = value;
                                               discountPriceDropdownTypeHelperText = "Valid";
-                                              discountPriceDropdownTypeIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                              discountPriceDropdownTypeIcon = Icon(Icons.verified, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp);
                                               dropDownBorderColor = false;
                                             });
 
@@ -359,17 +360,17 @@ class _AddItemsState extends State<AddItems> {
                                             if (value == "%" && discountValue > 100) {
                                               setState(() {
                                                 productDiscountPriceHelperText = "max 100%";
-                                                productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                                productDiscountPriceIcon = Icon(Icons.error, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red, size: 15.sp);
                                               });
                                             } else if (value == "tk" && discountValue > productPrice) {
                                               setState(() {
                                                 productDiscountPriceHelperText = "Discount > Price";
-                                                productDiscountPriceIcon = Icon(Icons.error, color: Colors.red, size: 15.sp);
+                                                productDiscountPriceIcon = Icon(Icons.error, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red, size: 15.sp);
                                               });
                                             } else {
                                               setState(() {
                                                 productDiscountPriceHelperText = "Valid";
-                                                productDiscountPriceIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
+                                                productDiscountPriceIcon = Icon(Icons.verified, color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp);
                                               });
                                             }
                                           }
@@ -387,7 +388,7 @@ class _AddItemsState extends State<AddItems> {
                                           children: [
                                             discountPriceDropdownTypeIcon,
                                             SizedBox(width: 5.w),
-                                            Text(discountPriceDropdownTypeHelperText, style: TextStyle(color: AppColors.appInputFieldUnActiveColor),),
+                                            Text(discountPriceDropdownTypeHelperText, style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),),
                                           ],
                                         ),
                                       ),
@@ -404,28 +405,28 @@ class _AddItemsState extends State<AddItems> {
                             TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Product Stock",
-                                hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                hintStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
                                 labelText: "Product Stock",
                                 filled: true,
                                 fillColor: Colors.white.withValues(alpha: 0.3),
                                 prefixIcon: Icon(Icons.warehouse),
-                                prefixIconColor: AppColors.appInputFieldActiveColor,
-                                labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                helper: Row(children: [productStockIcon, SizedBox(width: 5.w,), Text(productStockHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
+                                labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor)),
+                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor)),
+                                helper: Row(children: [productStockIcon, SizedBox(width: 5.w,), Text(productStockHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),)],),
                               ),
                               keyboardType: TextInputType.number,
                               maxLength: 10,
-                              cursorColor: AppColors.appInputFieldActiveColor,
+                              cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                               controller: _productStockController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               onChanged: (value){
                                 setState(() {
                                   if (value.trim().isNotEmpty && RegExp(r'^(0|[1-9][0-9]*)$').hasMatch(value.trim())){
                                     productStockHelperText = "Valid";
-                                    productStockIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                    productStockIcon = Icon(Icons.verified,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp,);
                                   }else{
                                     productStockHelperText = "";
                                   }
@@ -454,16 +455,16 @@ class _AddItemsState extends State<AddItems> {
                                 filled: true,
                                 fillColor: Colors.white.withValues(alpha: 0.3),
                                 prefixIcon: Icon(Icons.category_outlined),
-                                prefixIconColor: AppColors.appInputFieldActiveColor,
-                                labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                helper: Row(children: [productCategoryIcon, SizedBox(width: 5.w,), Text(productCategoryHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
+                                labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor)),
+                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor)),
+                                helper: Row(children: [productCategoryIcon, SizedBox(width: 5.w,), Text(productCategoryHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),)],),
                               ),
                               keyboardType: TextInputType.text,
                               maxLength: 20,
-                              cursorColor: AppColors.appInputFieldActiveColor,
+                              cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                               controller: _productCategoryController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[0-9]')),],
@@ -471,7 +472,7 @@ class _AddItemsState extends State<AddItems> {
                                 setState(() {
                                   if (value.trim().isNotEmpty){
                                     productCategoryHelperText = "Valid";
-                                    productCategoryIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                    productCategoryIcon = Icon(Icons.verified,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp,);
                                   }else{
                                     productCategoryHelperText = "";
                                   }
@@ -493,21 +494,21 @@ class _AddItemsState extends State<AddItems> {
                             TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Product Description",
-                                hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                hintStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
                                 labelText: "Product Description",
                                 filled: true,
                                 fillColor: Colors.white.withValues(alpha: 0.3),
                                 prefixIcon: Icon(Icons.description),
-                                prefixIconColor: AppColors.appInputFieldActiveColor,
-                                labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
-                                floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
-                                helper: Row(children: [productDescriptionIcon, SizedBox(width: 5.w,), Text(productDescriptionHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                prefixIconColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
+                                labelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),
+                                floatingLabelStyle: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor)),
+                                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor)),
+                                helper: Row(children: [productDescriptionIcon, SizedBox(width: 5.w,), Text(productDescriptionHelperText,style: TextStyle(color : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor),)],),
                               ),
                               keyboardType: TextInputType.text,
                               maxLength: 20,
-                              cursorColor: AppColors.appInputFieldActiveColor,
+                              cursorColor: themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor,
                               controller: _productDescriptionController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[0-9]')),],
@@ -515,7 +516,7 @@ class _AddItemsState extends State<AddItems> {
                                 setState(() {
                                   if (value.trim().isNotEmpty){
                                     productDescriptionHelperText = "Valid";
-                                    productDescriptionIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                    productDescriptionIcon = Icon(Icons.verified,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.green, size: 15.sp,);
                                   }else{
                                     productDescriptionHelperText = "";
                                   }
@@ -539,7 +540,7 @@ class _AddItemsState extends State<AddItems> {
                                   padding: EdgeInsets.only(bottom: 10.h),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12.r),
-                                    child: Image.file(_image!, width: double.infinity, height: 200.h, fit: BoxFit.cover,),
+                                    child: Image.file(_image!, height: 200.h, fit: BoxFit.cover,),
                                   ),
                                 ),
                             
@@ -552,11 +553,11 @@ class _AddItemsState extends State<AddItems> {
                                     setState(() {_image = pickedFile;_imageError = false;});
                                   }
                                 },
-                                icon: Icon(Icons.upload_file, size: 24.sp, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,),
-                                label: Text(_image != null ? "Change Image" : "Upload Product Image", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,), overflow: TextOverflow.ellipsis,),
+                                icon: Icon(Icons.upload_file, size: 24.sp, color: _imageError ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red : _image != null ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor,),
+                                label: Text(_image != null ? "Change Image" : "Upload Product Image", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: _imageError ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red : _image != null ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor,), overflow: TextOverflow.ellipsis,),
                                 /// >>> If You Want to show image path Replaced  "Change Image"  text
                                 //label: Text(_image != null ? path.basename(_image!.path) : "Upload Product Image", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor,), overflow: TextOverflow.ellipsis,),
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, elevation: 0, side: BorderSide(color: _imageError ? Colors.red : _image != null ? AppColors.appInputFieldActiveColor : AppColors.appInputFieldUnActiveColor, width: 1.5,), padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r),),),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, elevation: 0, side: BorderSide(color: _imageError ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :Colors.red : _image != null ? themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldActiveColor : themeProvider.themeMode == ThemeMode.dark ? Colors.white :AppColors.appInputFieldUnActiveColor, width: 1.5,), padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r),),),
                               ),
                             ),
                             SizedBox(height: 30.h,),
