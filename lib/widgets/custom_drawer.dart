@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prothesvendordashboard/pages/dashboard/dashborad_item_pages/items_list.dart';
+import 'package:prothesvendordashboard/pages/dashboard/dashborad_item_pages/order_pages.dart';
+import 'package:prothesvendordashboard/pages/dashboard/dashborad_item_pages/settings_page.dart';
 import 'package:prothesvendordashboard/utils/constant/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -76,13 +79,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 padding: EdgeInsets.zero,
                 children: [
                   _buildItem(context, "Dashboard", Icons.dashboard_outlined, onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProDashboard()), (Route<dynamic> route) => false,)),
-                  _buildItem(context, "Orders", Icons.shopping_bag_outlined, onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProDashboard()), (Route<dynamic> route) => false,)),
-                  _buildItem(context, "Products", Icons.inventory_2_outlined, onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProDashboard()), (Route<dynamic> route) => false,)),
+                  _buildItem(context, "Orders", Icons.shopping_bag_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPages(),));}),
+                  _buildItem(context, "Products", Icons.inventory_2_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => ItemsList(),));}),
                   _buildItem(context, "Messages", Icons.chat_outlined, onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProDashboard()), (Route<dynamic> route) => false,)),
 
                   // Switch Button Shop Open / Close
                   _buildItem(context, customSettings.isPlayOrPause ? "Play" : "Pause", customSettings.isPlayOrPause?Icons.play_circle_outline_outlined:Icons.pause_circle_outline, showSwitch: true, switchValue: customSettings.isPlayOrPause,onSwitchChanged :(val) => customSettings.togglePlayPauseStatus(),),
-                  _buildItem(context, "Settings", Icons.settings_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => ProDashboard(),));}),
+                  _buildItem(context, "Settings", Icons.settings_outlined, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(),));}),
                   _buildItem(context, "Help & Support", Icons.help_outline, onTap: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: (context) => HelpSupportPage(),));}),
                 ],
               ),
