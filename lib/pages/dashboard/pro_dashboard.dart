@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prothesvendordashboard/pages/dashboard/dashborad_item_pages/items_list.dart';
 import 'package:prothesvendordashboard/widgets/custom_drawer.dart';
 import '../../utils/constant/app_colors.dart';
+import '../../widgets/exit_app_alert_dialogue.dart';
 import 'dashborad_item_pages/add_items.dart';
 import 'dashborad_item_pages/order_pages.dart';
 import 'dashborad_item_pages/publish_items_page.dart';
@@ -13,34 +14,38 @@ class ProDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Pro Dashboard"),),
-      drawer: CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, dynamic) {  if (didPop) {return;}  BasicAlertDialogue.willPopScope(context);},
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Pro Dashboard"),),
+        drawer: CustomDrawer(),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-              SizedBox(height: 20.h,),
+                SizedBox(height: 20.h,),
 
-              Expanded(
-                child: GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16, childAspectRatio: 1.3,),
-                  children: [
-                    _dashboard(title: "Add Items", icon: Icons.add_box_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const AddItems()),);},),
-                    _dashboard(title: "View Items", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const ItemsList()),);},qty: '0'),
+                Expanded(
+                  child: GridView(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16, childAspectRatio: 1.3,),
+                    children: [
+                      _dashboard(title: "Add Items", icon: Icons.add_box_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const AddItems()),);},),
+                      _dashboard(title: "View Items", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const ItemsList()),);},qty: '0'),
 
-                    _dashboard(title: "Publish Items", icon: Icons.publish_sharp, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const PublishItemsPage()),);},qty: "0"),
-                    _dashboard(title: "View Orders", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPages()),);},qty: "0"),
-                    _dashboard(title: "Settings", icon: Icons.settings, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()),);},),
-                  ],
+                      _dashboard(title: "Publish Items", icon: Icons.publish_sharp, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const PublishItemsPage()),);},qty: "0"),
+                      _dashboard(title: "View Orders", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPages()),);},qty: "0"),
+                      _dashboard(title: "Settings", icon: Icons.settings, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()),);},),
+                    ],
+                  ),
                 ),
-              ),
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
