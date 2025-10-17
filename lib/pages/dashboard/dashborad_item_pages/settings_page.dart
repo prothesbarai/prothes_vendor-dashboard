@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import '../../../models/hive_models/theme_selected_model/theme_selected_model.dart';
+import '../../../providers/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -8,30 +11,39 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-enum AppTheme { system, light, dark }
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  AppTheme currentTheme = AppTheme.light;
   bool isShopOpen = true;
   bool isEnabledOrderNotification = true;
   String selectedLanguage = 'English';
 
-  late bool isDarkMode;
 
-  @override
-  void initState() {
-    super.initState();
-    isDarkMode = false;
+  // currentTheme
+  AppTheme currentTheme = AppTheme.system;
+
+  // _getThemeDescription
+  String _getThemeDescription(AppTheme theme) {
+    switch (theme) {
+      case AppTheme.system:
+        return "Current: System Default";
+      case AppTheme.light:
+        return "Current: Light Mode";
+      case AppTheme.dark:
+        return "Current: Dark Mode";
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings")),
+      appBar: AppBar(
+        title: const Text("Settings"),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -40,72 +52,71 @@ class _SettingsPageState extends State<SettingsPage> {
 
           // Profile
           ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text("Profile Settings"),
-            subtitle: const Text("Update your personal info"),
+            leading: Icon(Icons.person, color: Theme.of(context).iconTheme.color),
+            title: Text("Profile Settings", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Update your personal info", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             onTap: () {},
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
           // Store
           ListTile(
-            leading: const Icon(Icons.store),
-            title: const Text("Store Settings"),
-            subtitle: const Text("Update store info & logo"),
+            leading: Icon(Icons.store, color: Theme.of(context).iconTheme.color),
+            title: Text("Store Settings", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Update store info & logo", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             onTap: () {},
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
           // Shop Open/Close Toggle
           SwitchListTile(
-            title: Text("Shop ${isShopOpen ? "Open" : "Close"}"),
-            subtitle: const Text("Turn on/off your shop"),
+            title: Text("Shop ${isShopOpen ? "Open" : "Close"}", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Turn on/off your shop", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             value: isShopOpen,
             onChanged: (value) {setState(() {isShopOpen = value;});},
-            secondary: const Icon(Icons.storefront),
+            secondary: Icon(Icons.storefront, color: Theme.of(context).iconTheme.color),
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
           // Payment
           ListTile(
-            leading: const Icon(Icons.payment),
-            title: const Text("Payment Settings"),
-            subtitle: const Text("Add or update payment info"),
+            leading: Icon(Icons.payment, color: Theme.of(context).iconTheme.color),
+            title: Text("Payment Settings", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Add or update payment info", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             onTap: () {},
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
-          // Order Notifications
           // Order Notifications
           SwitchListTile(
-            title: const Text("Order Notifications"),
-            subtitle: Text(isEnabledOrderNotification ? "Enable" : "Disable"),
+            title: Text("Order Notifications", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text(isEnabledOrderNotification ? "Enable" : "Disable", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             value: isEnabledOrderNotification,
             onChanged: (value) {setState(() {isEnabledOrderNotification = value;});},
-            secondary: const Icon(Icons.notifications),
+            secondary: Icon(Icons.notifications, color: Theme.of(context).iconTheme.color),
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
           // Password & Security
           ListTile(
-            leading: const Icon(Icons.security),
-            title: const Text("Password & Security"),
-            subtitle: const Text("Change password & enable 2FA"),
+            leading: Icon(Icons.security, color: Theme.of(context).iconTheme.color),
+            title: Text("Password & Security", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Change password & enable 2FA", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             onTap: () {},
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
           // Language Selection
           ListTile(
-            leading: const Icon(Icons.language),
-            title: const Text("Language"),
-            subtitle: Text("Current: $selectedLanguage"),
+            leading: Icon(Icons.language, color: Theme.of(context).iconTheme.color),
+            title: Text("Language", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text("Current: $selectedLanguage", style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
             onTap: () {
               showDialog(
                 context: context,
@@ -131,15 +142,15 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
 
           // App Preferences
           ListTile(
-            leading: const Icon(Icons.color_lens),
-            title: const Text("App Preferences"),
-            subtitle: Text(currentTheme == AppTheme.system ? "Current: System Default" : currentTheme == AppTheme.light ? "Current: Light Mode" : "Current: Dark Mode",),
+            leading: Icon(Icons.color_lens, color: Theme.of(context).iconTheme.color),
+            title: Text("App Preferences", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+            subtitle: Text( _getThemeDescription(themeProvider.selectedTheme), style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),),
             onTap: () {
               AppTheme tempTheme = currentTheme;
               showDialog(
@@ -167,6 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel"),),
                           ElevatedButton(
                             onPressed: () {
+                              themeProvider.setTheme(tempTheme);
                               setState(() {currentTheme = tempTheme;});
                               Navigator.pop(context);
                             },
@@ -180,14 +192,14 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
-          const Divider(),
+          Divider(color: Theme.of(context).dividerColor),
 
 
 
           // Logout
           ListTile(
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text("Logout"),
+            leading: Icon(Icons.exit_to_app, color: Theme.of(context).iconTheme.color),
+            title: Text("Logout", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
             onTap: () {},
           ),
 
