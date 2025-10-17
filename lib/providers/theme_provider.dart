@@ -10,6 +10,7 @@ class ThemeProvider with ChangeNotifier {
   bool _isDarkMode = false;
 
   AppTheme get selectedTheme => _selectedTheme;
+
   bool get isDarkMode => _isDarkMode;
   ThemeMode get themeMode {
     switch (_selectedTheme) {

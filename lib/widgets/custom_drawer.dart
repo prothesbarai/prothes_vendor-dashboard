@@ -10,6 +10,7 @@ import '../pages/authentication/login_page.dart';
 import '../pages/dashboard/pro_dashboard.dart';
 import '../pages/drawer_pages/help_support_page.dart';
 import '../providers/dashboard_settings_provider.dart';
+import '../providers/theme_provider.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -37,9 +38,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
 
     final customSettings = Provider.of<DashboardSettingsProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Drawer(
-      backgroundColor: AppColors.primaryColor.withValues(alpha: 0.95),
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[900] : AppColors.primaryColor,
       child: SafeArea(
         child: Column(
           children: [
@@ -49,7 +51,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: DrawerHeader(
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24, width: 0.8.h),),),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: themeProvider.themeMode == ThemeMode.dark? Colors.grey[700]!: Colors.white24, width: 0.8.h),),),
                 child: Row(
                   children: [
                     CircleAvatar(radius: 35.r, backgroundColor: Colors.white,),
@@ -59,9 +61,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Owner Name", style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                          Text("Owner Name", style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ?AppColors.primaryColor:Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold)),
                           SizedBox(height: 6.h),
-                          Text("prothes16@email.com", style: TextStyle(color: Colors.white70, fontSize: 13.sp)),
+                          Text("prothes16@email.com", style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ?AppColors.primaryColor:Colors.white, fontSize: 13.sp)),
                         ],
                       ),
                     )
@@ -96,23 +98,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
             /// >>> =================== Logout Bottom ==========================
             Divider(color: Colors.white24),
             ListTile(
-              leading: Icon(Icons.logout, color: Colors.white, size: 30.sp),
-              title: Text("Logout", style: TextStyle(color: Colors.white, fontSize: 15.sp),),
+              leading: Icon(Icons.logout, color: themeProvider.themeMode == ThemeMode.dark ?AppColors.primaryColor:Colors.white, size: 30.sp),
+              title: Text("Logout", style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ?AppColors.primaryColor:Colors.white, fontSize: 15.sp),),
               onTap: () {
                 // Logout logic
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text("Logout"),
-                    content: const Text("Are you sure you want to logout?"),
+                    backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
+                    title: Text("Logout",style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? AppColors.primaryColor : Colors.black,),),
+                    content: Text("Are you sure you want to logout?",style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? AppColors.primaryColor : Colors.black,),),
                     actions: [
-                      ElevatedButton(onPressed: () => Navigator.pop(ctx), child: const Text("Cancel")),
+                      ElevatedButton(onPressed: () => Navigator.pop(ctx), child: Text("Cancel",style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,),)),
                       ElevatedButton(
                           onPressed: () async{
                             // Clear Hive >>>>>> Then
                             if(mounted) _navigateLoginPage();
                           },
-                          child: const Text("Logout")
+                          child: Text("Logout",style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,),)
                       ),
                     ],
                   ),
@@ -130,10 +133,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   /// >>> ========================= Drawer Item Widget =========================
   Widget _buildItem(BuildContext context, String title, IconData icon, {bool showSwitch = false, bool switchValue = false, ValueChanged<bool>? onSwitchChanged, VoidCallback? onTap,}) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ListTile(
       onTap: onTap,
-      leading: Icon(icon, size: 28.sp, color: Colors.white),
-      title: Text(title, style: TextStyle(color: Colors.white, fontSize: 15.sp)),
+      leading: Icon(icon, size: 28.sp, color: themeProvider.themeMode == ThemeMode.dark ? AppColors.primaryColor : Colors.white),
+      title: Text(title, style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? AppColors.primaryColor : Colors.white, fontSize: 15.sp)),
       trailing: showSwitch ? Switch(value: switchValue, onChanged: onSwitchChanged, activeThumbColor: Colors.white, inactiveThumbColor: Colors.grey,) : const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white38, size: 16),
     );
   }

@@ -19,9 +19,6 @@ class _SettingsPageState extends State<SettingsPage> {
   String selectedLanguage = 'English';
 
 
-  // currentTheme
-  AppTheme currentTheme = AppTheme.system;
-
   // _getThemeDescription
   String _getThemeDescription(AppTheme theme) {
     switch (theme) {
@@ -149,7 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text("App Preferences", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
             subtitle: Text( _getThemeDescription(themeProvider.selectedTheme), style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),),
             onTap: () {
-              AppTheme tempTheme = currentTheme;
+              AppTheme tempTheme = themeProvider.selectedTheme;
               showDialog(
                 context: context,
                 builder: (context) {
@@ -165,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              RadioListTile<AppTheme>(value: AppTheme.system, title: const Text("System Default"), activeColor: Colors.blue,),
+                              RadioListTile<AppTheme>(value: AppTheme.system,title: const Text("System Default"), activeColor: Colors.blue,),
                               RadioListTile<AppTheme>(value: AppTheme.light, title: const Text("Light Mode"), activeColor: Colors.blue,),
                               RadioListTile<AppTheme>(value: AppTheme.dark, title: const Text("Dark Mode"), activeColor: Colors.blue,),
                             ],
@@ -176,7 +173,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           ElevatedButton(
                             onPressed: () {
                               themeProvider.setTheme(tempTheme);
-                              setState(() {currentTheme = tempTheme;});
                               Navigator.pop(context);
                             },
                             child: const Text("Apply"),
