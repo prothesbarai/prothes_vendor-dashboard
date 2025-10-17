@@ -49,34 +49,18 @@ class MyApp extends StatelessWidget {
     );
   }
 
+
   ThemeData _buildLightTheme() {
     return ThemeData(
       useMaterial3: false,
       brightness: Brightness.light,
       primaryColor: AppColors.primaryColor,
-      appBarTheme: AppBarTheme(
-        backgroundColor: AppColors.primaryColor,
-        centerTitle: true,
-        foregroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      drawerTheme: DrawerThemeData(
-        backgroundColor: AppColors.primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-        ),
-      ),
+      appBarTheme: AppBarTheme(backgroundColor: AppColors.primaryColor, centerTitle: true, foregroundColor: Colors.white, iconTheme: IconThemeData(color: Colors.white),),
+      drawerTheme: DrawerThemeData(backgroundColor: AppColors.primaryColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20),),),),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),),),
       scaffoldBackgroundColor: Colors.white,
       cardColor: Colors.white,
-      dialogBackgroundColor: Colors.white,
+      dialogTheme: DialogThemeData(backgroundColor: Colors.white),
     );
   }
 
@@ -85,29 +69,12 @@ class MyApp extends StatelessWidget {
       useMaterial3: false,
       brightness: Brightness.dark,
       primaryColor: AppColors.primaryColor,
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.grey[900],
-        centerTitle: true,
-        foregroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      drawerTheme: DrawerThemeData(
-        backgroundColor: Colors.grey[900],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-        ),
-      ),
+      appBarTheme: AppBarTheme(backgroundColor: Colors.grey[900], centerTitle: true, foregroundColor: Colors.white, iconTheme: IconThemeData(color: Colors.white),),
+      drawerTheme: DrawerThemeData(backgroundColor: Colors.grey[900], shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20),),),),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),),),
       scaffoldBackgroundColor: Colors.grey[850],
       cardColor: Colors.grey[800],
-      dialogBackgroundColor: Colors.grey[800],
+      dialogTheme: DialogThemeData(backgroundColor: Colors.grey[800]),
       dividerColor: Colors.grey[700],
     );
   }

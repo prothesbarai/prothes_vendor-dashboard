@@ -40,10 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      ),
+      appBar: AppBar(title: const Text("Settings"), backgroundColor: Theme.of(context).appBarTheme.backgroundColor,),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
