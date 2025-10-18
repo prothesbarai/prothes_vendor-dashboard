@@ -35,4 +35,9 @@ class ItemsProvider with ChangeNotifier {
   }
 
 
+
+  int get totaItems => _products.length;
+  int get totalFeaturedItems => _products.where((p) => p.isFeatured).length;
+
+
 }

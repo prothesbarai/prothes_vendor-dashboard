@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prothesvendordashboard/pages/dashboard/dashborad_item_pages/items_list.dart';
+import 'package:prothesvendordashboard/providers/items_provider.dart';
 import 'package:prothesvendordashboard/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
@@ -16,6 +17,9 @@ class ProDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final itemCount = Provider.of<ItemsProvider>(context).totaItems;
+
     return Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return PopScope(
@@ -41,7 +45,7 @@ class ProDashboard extends StatelessWidget {
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16, childAspectRatio: 1.3,),
                           children: [
                             _dashboard(title: "Add Items", icon: Icons.add_box_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const AddItems()),);},),
-                            _dashboard(title: "View Items", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const ItemsList()),);},qty: '0'),
+                            _dashboard(title: "View Items", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const ItemsList()),);},qty: itemCount.toString()),
 
                             _dashboard(title: "Publish Items", icon: Icons.publish_sharp, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const PublishItemsPage()),);},qty: "0"),
                             _dashboard(title: "View Orders", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPages()),);},qty: "0"),
