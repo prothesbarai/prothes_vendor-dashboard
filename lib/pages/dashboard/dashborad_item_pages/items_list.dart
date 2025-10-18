@@ -17,7 +17,7 @@ class ItemsList extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[900] : AppColors.primaryColor,
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.white,
       appBar: AppBar(title: const Text("My Products")),
       body: Padding(
         padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
