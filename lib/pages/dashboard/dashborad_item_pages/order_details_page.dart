@@ -102,14 +102,7 @@ class OrderDetailsPage extends StatelessWidget {
   Widget _sectionTitle(String title) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-          color: AppColors.primaryColor,
-        ),
-      ),
+      child: Text(title, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor,),),
     );
   }
   /// <<< Section Title Widget =================================================

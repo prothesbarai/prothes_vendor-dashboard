@@ -25,6 +25,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final emailController = TextEditingController();
   final phnNumberController = TextEditingController();
   final deliveryRangeController = TextEditingController();
+
+  String? deliveryType; // If You Default Selected any Option Then write => String deliveryType = "Free";
+  final deliveryChargeFeeController = TextEditingController();
+  final deliveryChargeMinOrderValueController = TextEditingController();
+
   final tradeLicenseController = TextEditingController();
   final dropdownController = TextEditingController();
   final passwordController = TextEditingController();
@@ -39,12 +44,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Icon emailIcon = Icon(Icons.email,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon phoneIcon = Icon(Icons.phone,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon deliveryRangeIcon = Icon(Icons.delivery_dining,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon deliveryChargeIcon = Icon(Icons.currency_lira,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
+  Icon deliveryChargeMinOrderValueIcon = Icon(Icons.currency_lira,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon tradeLicenseIcon = Icon(Icons.insert_drive_file_sharp,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   Icon dropDownIcon = Icon(Icons.store,color: AppColors.appInputFieldUnActiveColor, size: 15.sp,);
   String nameHelperText = "Your Full Name";
   String emailHelperText = "Example : prothes19@gmail.com";
   String phoneHelperText = "Example : 01317818826";
   String deliveryRangeHelperText = "600-meter";
+  String deliveryChargeHelperText = "Delivery Charge";
+  String deliveryChargeMinOrderValueHelperText = "Minimum Order Value";
   String tradeLicenseHelperText = "your trade license";
   String dropdownHelperText = "Select Store Type";
 
@@ -62,6 +71,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     emailController.dispose();
     phnNumberController.dispose();
     deliveryRangeController.dispose();
+    deliveryChargeFeeController.dispose();
+    deliveryChargeMinOrderValueController.dispose();
     tradeLicenseController.dispose();
     dropdownController.dispose();
     passwordController.dispose();
@@ -309,8 +320,111 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               /// <<< Delivery Range Field End Here ==================
 
 
-                              /// >>> Trade License No Field Start Here ================
+                              /// >>> Radio Buttons Row ========================
                               if (currentStep >= 5)...[
+                                RadioGroup<String>(
+                                  groupValue: deliveryType,
+                                  onChanged: (value) {
+                                    setState(() {deliveryType = value!;currentStep = 6;});
+                                  },
+                                  child: Row(
+                                    children: const [
+                                      Expanded(child: RadioListTile<String>(value: "Free", title: Text("Free Delivery"),),),
+                                      Expanded(child: RadioListTile<String>(value: "Paid", title: Text("Paid Delivery"),),),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 20.h),
+                                if (deliveryType == "Paid")...[
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      hintText: "Delivery Charge",
+                                      hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      fillColor: Colors.white.withValues(alpha: 0.3),
+                                      filled: true,
+                                      prefixIcon: Icon(Icons.currency_lira),
+                                      prefixIconColor: AppColors.appInputFieldActiveColor,
+                                      labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
+                                      floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
+                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
+                                      suffixText: "৳",
+                                      helper: Row(children: [deliveryChargeIcon, SizedBox(width: 5.w,), Text(deliveryChargeHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 5,
+                                    cursorColor: AppColors.appInputFieldActiveColor,
+                                    controller: deliveryChargeFeeController,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    onChanged: (value){
+                                      setState(() {
+                                        if (RegExp(r'^\d+$').hasMatch(value)){
+                                          deliveryChargeHelperText = "Valid Delivery Charge";
+                                          deliveryChargeIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                        }else{
+                                          deliveryChargeHelperText = "";
+                                        }
+                                      });
+                                    },
+                                    validator: (value){
+                                      if(value == null || value.trim().isEmpty){
+                                        return "Field is Empty";
+                                      }
+                                      if (!RegExp(r'^\d+$').hasMatch(value)){
+                                        return "Invalid Number";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  const SizedBox(height: 10),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      hintText: "Minimum Order Value",
+                                      hintStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      fillColor: Colors.white.withValues(alpha: 0.3),
+                                      filled: true,
+                                      prefixIcon: Icon(Icons.currency_lira),
+                                      prefixIconColor: AppColors.appInputFieldActiveColor,
+                                      labelStyle: TextStyle(color: AppColors.appInputFieldUnActiveColor),
+                                      floatingLabelStyle: TextStyle(color: AppColors.appInputFieldActiveColor),
+                                      border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldUnActiveColor)),
+                                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appInputFieldActiveColor)),
+                                      suffixText: "৳",
+                                      helper: Row(children: [deliveryChargeMinOrderValueIcon, SizedBox(width: 5.w,), Text(deliveryChargeMinOrderValueHelperText,style: TextStyle(color : AppColors.appInputFieldUnActiveColor),)],),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 5,
+                                    cursorColor: AppColors.appInputFieldActiveColor,
+                                    controller: deliveryChargeMinOrderValueController,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    onChanged: (value){
+                                      setState(() {
+                                        if (RegExp(r'^\d+$').hasMatch(value)){
+                                          deliveryChargeMinOrderValueHelperText = "Valid Min Order Value";
+                                          deliveryChargeMinOrderValueIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
+                                        }else{
+                                          deliveryChargeMinOrderValueHelperText = "";
+                                        }
+                                      });
+                                    },
+                                    validator: (value){
+                                      if(value == null || value.trim().isEmpty){
+                                        return "Field is Empty";
+                                      }
+                                      if (!RegExp(r'^\d+$').hasMatch(value)){
+                                        return "Invalid Number";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ],
+                                SizedBox(height: 20.h),
+                              ],
+                              /// <<< Radio Buttons Row ========================
+
+
+                              /// >>> Trade License No Field Start Here ================
+                              if (currentStep >= 6)...[
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "Trade License Number",
@@ -336,7 +450,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       if (RegExp(r'^[1-9]\d*$').hasMatch(value)){
                                         tradeLicenseHelperText = "Valid Trade License";
                                         tradeLicenseIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
-                                        setState(() {currentStep = 6;});
+                                        setState(() {currentStep = 7;});
                                       }else{
                                         tradeLicenseHelperText = "";
                                       }
@@ -382,7 +496,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
                               /// >>> DropDown Field Start Here ==============
-                              if (currentStep >= 6)...[
+                              if (currentStep >= 7)...[
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -412,7 +526,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             dropdownHelperText = "Valid Store Type";
                                             dropDownIcon = Icon(Icons.verified, color: Colors.green, size: 15.sp);
                                             dropDownBorderColor = false;
-                                            setState(() {currentStep = 7;});
+                                            setState(() {currentStep = 8;});
                                           });
                                         }
                                       },
@@ -447,7 +561,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
                               /// >>> Password Field Start Here ====================
-                              if (currentStep >= 7)...[
+                              if (currentStep >= 8)...[
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "Password",
@@ -480,7 +594,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       if (value.length >= 8 && RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*{}()\\.+=?/_-]).{8,}$').hasMatch(value)){
                                         passHelperText = "Valid Password";
                                         passIcon = Icon(Icons.verified,color: Colors.green, size: 15.sp,);
-                                        setState(() {currentStep = 8;});
+                                        setState(() {currentStep = 9;});
                                       }else{
                                         passHelperText = "";
                                       }
@@ -514,7 +628,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
                               /// >>> Confirm Password Field Start Here ============
-                              if (currentStep >= 8)...[
+                              if (currentStep >= 9)...[
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "Confirm Password",
@@ -569,10 +683,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                               /// >>> Registration Button Start Here ===============
                               ElevatedButton(
-                                  onPressed: isLoading || currentStep != 8 ? null :() async{
+                                  onPressed: isLoading || currentStep != 9 ? null :() async{
 
                                     FocusScope.of(context).unfocus();
-                                    if(currentStep == 8 && _formKey.currentState!.validate()){
+                                    if(currentStep == 9 && _formKey.currentState!.validate()){
                                       String name = nameController.text.trim();
                                       String email = emailController.text.trim();
                                       String phnNumber = phnNumberController.text.trim();
