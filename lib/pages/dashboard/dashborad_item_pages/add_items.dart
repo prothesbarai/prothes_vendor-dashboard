@@ -28,7 +28,7 @@ class _AddItemsState extends State<AddItems> {
   bool dropDownBorderColor = false;
   final _formKey = GlobalKey<FormState>();
 
-
+  final ScrollController _scrollController = ScrollController();
   final _productNameController = TextEditingController();
   final _productPriceController = TextEditingController();
   final _productDiscountPriceController = TextEditingController();
@@ -105,6 +105,7 @@ class _AddItemsState extends State<AddItems> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _productNameController.dispose();
     _productPriceController.dispose();
     _productDiscountPriceController.dispose();
@@ -114,6 +115,53 @@ class _AddItemsState extends State<AddItems> {
     _productDescriptionController.dispose();
     super.dispose();
   }
+
+
+  /// >>> Scroll to Empty Field Function With Helper method ====================
+  void _scrollToFirstEmptyField() {
+    // Check fields in order of appearance
+    if (_productNameController.text.isEmpty) {
+      _scrollToField(0);
+      return;
+    }
+    if (_productPriceController.text.isEmpty) {
+      _scrollToField(1);
+      return;
+    }
+    if (_productDiscountPriceController.text.isEmpty) {
+      _scrollToField(2);
+      return;
+    }
+    if (_discountPriceDropdownController.text.isEmpty) {
+      _scrollToField(3);
+      return;
+    }
+    if (_productStockController.text.isEmpty) {
+      _scrollToField(4);
+      return;
+    }
+    if (_productCategoryController.text.isEmpty) {
+      _scrollToField(5);
+      return;
+    }
+    if (_productDescriptionController.text.isEmpty) {
+      _scrollToField(6);
+      return;
+    }
+    if (_image == null) {
+      _scrollToField(7);
+      return;
+    }
+  }
+  void _scrollToField(int fieldIndex) {
+    // Calculate approximate positions based on field order
+    // Adjust these values based on your actual UI layout
+    final double baseHeight = 100.h; // Approximate height per field
+    final double targetPosition = fieldIndex * baseHeight;
+    _scrollController.animateTo(targetPosition.clamp(0.0, _scrollController.position.maxScrollExtent), duration: Duration(milliseconds: 500), curve: Curves.easeInOut,);
+  }
+  /// <<< Scroll to Empty Field Function With Helper method ====================
+
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +177,7 @@ class _AddItemsState extends State<AddItems> {
         decoration: BoxDecoration(color: themeProvider.themeMode == ThemeMode.dark ? Colors.black : AppColors.bodyBgOverlayColor),
         height: double.infinity,
         child: SingleChildScrollView(
+          controller: _scrollController,
           physics: BouncingScrollPhysics(),
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
@@ -617,6 +666,18 @@ class _AddItemsState extends State<AddItems> {
                                     provider.addProduct(product);
                                   }
                                   Navigator.pop(context);
+                                }else{
+                                  _scrollToFirstEmptyField();
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Empty Fields Warning"),
+                                        content: Text("Please Check Some Fields are Empty"),
+                                        actions: [ElevatedButton(onPressed: ()=>Navigator.pop(context), child: Text("Ok"))],
+                                      );
+                                    },
+                                  );
                                 }
                               },
                               child: Text(isEdit ? "Update Product" : "Upload Product"),
