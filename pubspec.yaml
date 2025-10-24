@@ -50,6 +50,8 @@ dependencies:
 
   lucide_icons:
   cached_network_image:
+  share_plus: ^12.0.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

@@ -2,11 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../widgets/share_button_option_bottomshade.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final imageUrl = "https://gorurghash.com/wp-content/uploads/2022/02/Mushak-2.3-BIN-Certificate-On-25.OCT_.2021-768x1086.jpg";
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FA),
       body: CustomScrollView(
@@ -37,7 +42,10 @@ class ProfilePage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(radius: 45, backgroundImage: AssetImage('assets/vendor_logo.png'),),
+                          CircleAvatar(
+                            radius: 45,
+                            backgroundImage: CachedNetworkImageProvider(imageUrl),
+                          ),
                           const SizedBox(height: 10),
                           const Text("ABC Super Shop", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22, letterSpacing: 0.5,),),
                           const SizedBox(height: 4),
@@ -86,7 +94,8 @@ class ProfilePage extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: CachedNetworkImage(
-                      imageUrl: "https://imgv2-2-f.scribdassets.com/img/document/810500606/original/3402c8774e/1?v=1",
+                      imageUrl: imageUrl,
+                      httpHeaders: {"User-Agent": "Mozilla/5.0"},
                       width: double.infinity,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => CircularProgressIndicator(),
@@ -101,7 +110,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       Expanded(child: _buildActionButton(icon: LucideIcons.edit3, label: "Edit Profile", color: const Color(0xFF6C63FF), onTap: () {},),),
                       const SizedBox(width: 15),
-                      Expanded(child: _buildActionButton(icon: LucideIcons.share2, label: "Share", color: Colors.black87, onTap: () {}, outlined: true,),),
+                      Expanded(child: _buildActionButton(icon: LucideIcons.share2, label: "Share", color: Colors.black87, onTap: () {showShareOptions(context);}, outlined: true,),),
                     ],
                   ),
                   const SizedBox(height: 60),
