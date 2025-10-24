@@ -48,6 +48,9 @@ dependencies:
   http: ^1.5.0
   url_launcher: ^6.3.0
 
+  lucide_icons:
+  cached_network_image:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
