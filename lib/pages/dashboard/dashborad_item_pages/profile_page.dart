@@ -116,7 +116,7 @@ class ProfilePage extends StatelessWidget {
   }
 
 
-  /// >>> ====================== Custom Widgets ===============================
+  /// >>> ====================== Custom Widgets ================================
 
   // >>> Every Section title
   Widget _sectionTitle(String title) {
