@@ -9,6 +9,7 @@ import '../../utils/constant/app_colors.dart';
 import '../../widgets/exit_app_alert_dialogue.dart';
 import 'dashborad_item_pages/add_items.dart';
 import 'dashborad_item_pages/order_pages.dart';
+import 'dashborad_item_pages/profile_page.dart';
 import 'dashborad_item_pages/publish_items_page.dart';
 import 'dashborad_item_pages/settings_page.dart';
 
@@ -50,6 +51,7 @@ class ProDashboard extends StatelessWidget {
                             _dashboard(title: "Publish Items", icon: Icons.publish_sharp, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const PublishItemsPage()),);},qty: "0"),
                             _dashboard(title: "View Orders", icon: Icons.list_alt_outlined, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPages()),);},qty: "0"),
                             _dashboard(title: "Settings", icon: Icons.settings, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()),);},),
+                            _dashboard(title: "Profile", icon: Icons.person, onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfilePage()),);},),
                           ],
                         ),
                       ),
