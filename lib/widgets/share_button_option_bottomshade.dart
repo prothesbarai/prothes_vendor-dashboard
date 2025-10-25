@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:prothesvendordashboard/utils/constant/app_colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'dart:html' as html;
 
 void showShareOptions(BuildContext context) {
   showModalBottomSheet(
@@ -56,22 +54,12 @@ void showShareOptions(BuildContext context) {
 }
 
 
-/// Universal Share Function — works on Web + Mobile
+/// >>> Share Function — works
 void _safeShare({required String text, String? subject}) async {
-  if (kIsWeb) {
-    //Web Share API
-    try {
-      await html.window.navigator.share({'title': subject ?? "Share", 'text': text,});
-    } catch (e) {
-      html.window.alert("Failed to share: $e");
-    }
-  } else {
-    // Android / iOS
-    try {
-      await SharePlus.instance.share(ShareParams(text: text,subject: subject));
-    } catch (e) {
-      debugPrint("Share error: $e");
-    }
+  try {
+    await SharePlus.instance.share(ShareParams(text: text,subject: subject));
+  } catch (e) {
+    debugPrint("Share error: $e");
   }
 }
 
