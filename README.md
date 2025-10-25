@@ -21,6 +21,11 @@ A **Flutter-based Vendor Dashboard** application for managing vendor-side featur
     <td><img src="assets/images/img_4.png" width="250"/></td>
     <td><img src="assets/images/img_5.png" width="250"/></td>
   </tr>
+  <tr>
+    <td><img src="assets/images/img_6.png" width="250"/></td>
+    <td><img src="assets/images/img_7.png" width="250"/></td>
+    <td><img src="assets/images/img_8.png" width="250"/></td>
+  </tr>
 </table>
 
 ---

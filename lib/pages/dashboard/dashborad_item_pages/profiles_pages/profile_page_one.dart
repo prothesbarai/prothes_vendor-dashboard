@@ -2,15 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../../widgets/share_button_option_bottomshade.dart';
+import '../../../../widgets/share_button_option_bottomshade.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePageOne extends StatelessWidget {
+  const ProfilePageOne({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     final imageUrl = "https://gorurghash.com/wp-content/uploads/2022/02/Mushak-2.3-BIN-Certificate-On-25.OCT_.2021-768x1086.jpg";
+    final logoImageUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FA),
@@ -44,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 45,
-                            backgroundImage: CachedNetworkImageProvider(imageUrl),
+                            backgroundImage: CachedNetworkImageProvider(logoImageUrl),
                           ),
                           const SizedBox(height: 10),
                           const Text("ABC Super Shop", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22, letterSpacing: 0.5,),),
@@ -160,6 +161,8 @@ class ProfilePage extends StatelessWidget {
       child: Text(text, style: const TextStyle(fontSize: 14.5, color: Colors.black87, height: 1.5),),
     );
   }
+
+
 
   // >>> Action Button Section
   Widget _buildActionButton({required IconData icon, required String label, required Color color, required VoidCallback onTap, bool outlined = false,}) {
