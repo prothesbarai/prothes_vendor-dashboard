@@ -33,7 +33,7 @@ void showShareOptions(BuildContext context) {
             );
           }),
           _shareOption(context, Icons.qr_code, "QR Code Generate & Share", () {
-            _showQRCodeDialog(context, "ANGKAN_UI"); // PROTHES_UI , ANGKAN_UI, SHREYASI_UI
+            _showQRCodeDialog(context, "SHREYASI_UI"); // PROTHES_UI , ANGKAN_UI, SHREYASI_UI
           }),
           _shareOption(context, Icons.contacts, "Contact Share", () {
             _safeShare(
