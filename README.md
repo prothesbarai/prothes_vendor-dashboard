@@ -56,6 +56,8 @@ This project provides a **vendor-facing dashboard** built with Flutter. It inclu
 - 🛒 Product listing and management
 - 📦 Order list and status updates
 - 📊 Dashboard / basic analytics
+- 🌐 Multi-language (EN / BN)
+- 🌙 Dark Mode
 - 🎨 Uses Flutter packages for UI and networking
 
 > 💬 *If you want me to list the exact implemented features from the codebase I can scan `lib/` and `pubspec.yaml` and add them automatically.*
