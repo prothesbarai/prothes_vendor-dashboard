@@ -50,10 +50,12 @@ dependencies:
 
   # For Rating Bar
   flutter_rating_bar: ^4.0.1
+  
   lucide_icons:
   cached_network_image:
   share_plus: ^12.0.1
   qr_flutter: ^4.1.0
+  screenshot: ^3.0.0
 
 dev_dependencies:
   flutter_test:
