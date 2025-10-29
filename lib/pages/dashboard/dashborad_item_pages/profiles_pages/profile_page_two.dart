@@ -166,7 +166,7 @@ class _ProfilePageTwoState extends State<ProfilePageTwo> {
                         children: [
                           Expanded(child: _buildActionButton(icon: LucideIcons.edit3, label: "Edit Profile", color: const Color(0xFF6C63FF), onTap: () {},),),
                           const SizedBox(width: 15),
-                          Expanded(child: _buildActionButton(icon: LucideIcons.share2, label: "Share", color: Colors.black87, onTap: () {showShareOptions(context);}, outlined: true,),),
+                          Expanded(child: _buildActionButton(icon: LucideIcons.share2, label: "Share", color: Colors.black87, onTap: () {showShareOptions(context,'Asp','Notes','developerprothes16@gmail.com','01317818826');}, outlined: true,),),
                         ],
                       ),
                     ],
