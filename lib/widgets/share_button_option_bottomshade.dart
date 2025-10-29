@@ -8,7 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:prothesvendordashboard/utils/constant/app_colors.dart';
 
 
-void showShareOptions(BuildContext context,String ownerName,String storeName,String email,String phoneNo) {
+void showShareOptions(BuildContext context,String name,String notes,String email,String phoneNo) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25)),),
@@ -37,7 +37,7 @@ void showShareOptions(BuildContext context,String ownerName,String storeName,Str
               );
             }),
             _shareOption(context, Icons.qr_code, "QR Code Generate & Share", () {
-              _showQRCodeDialog(context,ownerName,storeName, email, phoneNo);
+              _showQRCodeDialog(context,name,notes, email, phoneNo);
             }),
             _shareOption(context, Icons.contacts, "Contact Share", () {
               _safeShare(
@@ -82,8 +82,8 @@ Widget _shareOption(BuildContext context, IconData icon, String title, VoidCallb
 
 
 
-void _showQRCodeDialog(BuildContext context, String ownerName,String storeName, String email, String phoneNo) {
-  final vCardData = "BEGIN:VCARD\nVERSION:3.0\nN:$ownerName;;;\nFN:$ownerName\nTEL;TYPE=CELL:$phoneNo\nEMAIL:$email\nNOTE:Store Name: $storeName\nEND:VCARD";
+void _showQRCodeDialog(BuildContext context, String name,String notes, String email, String phoneNo) {
+  final vCardData = "BEGIN:VCARD\nVERSION:3.0\nN:$name;;;\nFN:$name\nTEL;TYPE=CELL:$phoneNo\nEMAIL:$email\nNOTE:Store Name: $notes\nEND:VCARD";
   final ScreenshotController screenshotController = ScreenshotController();
   showDialog(
     context: context,
