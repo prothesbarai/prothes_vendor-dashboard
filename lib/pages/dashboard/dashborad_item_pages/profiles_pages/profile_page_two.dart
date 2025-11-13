@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-
+import '../../../widgets/animated_bg.dart';
 import '../../../../widgets/share_button_option_bottomshade.dart';
 
 class ProfilePageTwo extends StatefulWidget {
@@ -13,12 +13,21 @@ class ProfilePageTwo extends StatefulWidget {
   State<ProfilePageTwo> createState() => _ProfilePageTwoState();
 }
 
-class _ProfilePageTwoState extends State<ProfilePageTwo> {
+class _ProfilePageTwoState extends State<ProfilePageTwo> with SingleTickerProviderStateMixin{
 
-
+  late AnimationController _controller;
+  
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 10),)..repeat(reverse: true);
+  }
+
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
 
@@ -37,15 +46,13 @@ class _ProfilePageTwoState extends State<ProfilePageTwo> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Container(
-                  height: 200.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider('https://img.freepik.com/premium-photo/young-woman-black-dress-holds-shopping-bags-emotionally-raised-up-hands-pink-background_136403-14012.jpg',),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                SizedBox(
+                     height: 130.h,
+                     width: double.infinity,
+                     child: AnimatedBuilder(
+                       animation: _controller,
+                       builder: (context, child) {return CustomPaint(painter: WaterTwilightPainter(_controller.value),); },
+                     ),
                 ),
                 Positioned(
                   bottom: -40,
